@@ -279,6 +279,7 @@ class App extends Component {
                               </small>
                           </p>
                           <h1 className={"display-3"}>{this.showMoney(totalIncome)}</h1>
+                          <p><small className={"text-muted"}>TODO: Show what one change in either prop would do to bottom line</small></p>
                       </div>
                   </div>
                   <Slider
