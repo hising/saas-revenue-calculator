@@ -2,6 +2,9 @@
 
 Built with Create React App - Styles from Bootstrap 4
 
+![Image of Yaktocat](screenshot.png)
+
+
 ## Get Started
 
 ```
