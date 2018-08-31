@@ -2,6 +2,9 @@ import React, { Component } from 'react';
 import './App.css';
 import {Line} from "react-chartjs-2";
 
+function toPercentage(number, precision = 0) {
+    return `${number * 100}%`;
+}
 
 function simulateEngagement(monthtlyIncomePerUser = 9, months = 36, userOptions = {}) {
     const defaultOptions = {
@@ -179,11 +182,6 @@ class HistoricTable extends Component {
     };
 
     getRows() {
-        /**
-         *  reactivationCost: this.state.reactivationCost,
-         acqusitionCost: this.state.acqusitionCost,
-         monthlyRevenuePerUser: this.state.income
-         */
         let totalRevenue = 0;
         return this.props.data.map((item, index) => {
 
@@ -268,6 +266,21 @@ class App extends Component {
                   }} />
               </div>
               <div className="col-lg-4">
+                  <div className="card">
+                      <div className="card-body">
+                          <h5 className="card-title">Total Income after {this.state.months} months</h5>
+                          <p className="card-subtitle mb-2 text-muted">
+                              <small>${this.state.income}/user/month -
+                                  MoM Acq Growth: {toPercentage(this.state.growthFactor)} -
+                                  Churn-rate: {toPercentage(this.state.monthlyChurn)} -
+                                  Reactivation:  {toPercentage(this.state.reactivationRate)} -
+                                  Acquisition Cost: ${this.state.acqusitionCost} -
+                                  Reactivation Cost: ${this.state.reactivationCost}
+                              </small>
+                          </p>
+                          <h1 className={"display-3"}>{this.showMoney(totalIncome)}</h1>
+                      </div>
+                  </div>
                   <Slider
                       label={"First Month New Customers"}
                       value={this.state.monthlyNew}
@@ -361,7 +374,7 @@ class App extends Component {
 
 
 
-            Total Income: {this.showMoney(totalIncome)}
+
       </div>
     );
   }
