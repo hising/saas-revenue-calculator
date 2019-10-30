@@ -376,6 +376,9 @@ class App extends Component {
             />
           </div>
         </div>
+        <div className={"mt-3 mb-3 text-center text-muted"}>
+          Built by <a href={"https://yetric.com"}>Yetric AB</a>
+        </div>
       </div>
     );
   }
