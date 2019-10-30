@@ -4,6 +4,9 @@ import { moneyFormatter, simulateEngagement, toFloat, toInt, toPercentage } from
 import { Chart } from "./components/Chart";
 import { Slider } from "./components/Slider";
 import { HistoricTable } from "./components/HistoricTable";
+import { RevenueStore } from "./stores/RevenueStore";
+
+const revenueStore = new RevenueStore();
 
 class App extends Component {
   constructor(props) {
