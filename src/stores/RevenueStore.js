@@ -1,3 +1,5 @@
+import { computed, observable } from "mobx";
+
 export class RevenueStore {
   @observable monthly = [];
   @observable monthlyNew = 25;
