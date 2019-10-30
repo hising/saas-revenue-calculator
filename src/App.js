@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import "./App.css";
 import { Line } from "react-chartjs-2";
 
-function toPercentage(number, precision = 0) {
+function toPercentage(number) {
   return `${number * 100}%`;
 }
 
@@ -158,20 +158,22 @@ class Slider extends Component {
 class HistoricTable extends Component {
   render() {
     return (
-      <table>
-        <thead>
-          <tr>
-            <th>Month</th>
-            <th>New Users</th>
-            <th>Churned</th>
-            <th>Reactivated</th>
-            <th>Active Users</th>
-            <th>Inactive Users</th>
-            <th>Income</th>
-          </tr>
-        </thead>
-        <tbody>{this.getRows()}</tbody>
-      </table>
+      <div className="table-responsive">
+        <table>
+          <thead>
+            <tr>
+              <th>Month</th>
+              <th>New Users</th>
+              <th>Churned</th>
+              <th>Reactivated</th>
+              <th>Active Users</th>
+              <th>Inactive Users</th>
+              <th>Income</th>
+            </tr>
+          </thead>
+          <tbody>{this.getRows()}</tbody>
+        </table>
+      </div>
     );
   }
 
