@@ -1,73 +1,71 @@
 body {
-    margin: 0;
-    padding: 0;
-    font-family: "Helvetica Neue", Arial, sans-serif;
+  margin: 0;
+  padding: 0;
+  font-family: "Helvetica Neue", Arial, sans-serif;
 }
 
 .chart {
-    margin-bottom: 20px;
+  margin-bottom: 20px;
 }
 
 .slidecontainer {
-    margin-bottom: 12px;
-    padding-bottom: 12px;
-    padding-top: 12px;
-    border-top: 1px solid #ccc;
+  margin-bottom: 12px;
+  padding-bottom: 12px;
+  padding-top: 12px;
+  border-top: 1px solid #ccc;
 }
 
 .slidecontainer input {
-    width: 280px;
+  width: 280px;
 }
 
 .slidecontainer label {
-    display: block;
-    font-weight: 500;
+  display: block;
+  font-weight: 500;
 }
 
 .slidecontainer span {
-    display: inline-block;
-    font-size: 18px;
-    margin-left: 6px;
+  display: inline-block;
+  font-size: 18px;
+  margin-left: 6px;
 }
 
 table {
-    width: 100%;
-    border-collapse: collapse;
+  width: 100%;
+  border-collapse: collapse;
 }
 
-th, td {
-    border-bottom: 1px solid #ddd;
+th,
+td {
+  border-bottom: 1px solid #ddd;
 }
-
-
-
 
 th {
-    background: #505050;
-    color: #fff;
-    padding: 12px 4px;
-    font-weight: 400;
+  background: #505050;
+  color: #fff;
+  padding: 12px 4px;
+  font-weight: 400;
 }
 
 td {
-    padding: 8px;
-    vertical-align: top;
-    text-align: right;
+  padding: 8px;
+  vertical-align: top;
+  text-align: right;
 }
 
 td small {
-    display: block;
+  display: block;
 }
 
 tbody tr:nth-child(even) {
-    background: #f4f4f4;
+  background: #f4f4f4;
 }
 
 .text-muted {
-    color: #7b7b7b;
+  color: #7b7b7b;
 }
 
 .slideinfo {
-    font-size: 12px;
-    color: #7b7b7b;
+  font-size: 12px;
+  color: #7b7b7b;
 }
