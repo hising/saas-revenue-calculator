@@ -27,7 +27,7 @@ export class HistoricTable extends React.Component {
         let totalRevenue = 0;
         return this.props.data.map((item, index) => {
             let reactivationCost = item.reactivated * this.props.money.reactivationCost;
-            let acquisitionCost = item.monthlyNew * this.props.money.acqusitionCost;
+            let acquisitionCost = item.monthlyNew * this.props.money.acquisitionCost;
             let userRevenue = item.totalUsers * this.props.money.monthlyRevenuePerUser;
             let monthlyRevenue = userRevenue - (acquisitionCost + reactivationCost);
             totalRevenue += monthlyRevenue;

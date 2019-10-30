@@ -1,76 +1,49 @@
 import React, { Component } from "react";
 import "./App.css";
-import { moneyFormatter, simulateEngagement, toFloat, toInt, toPercentage } from "./core/functions";
+import { moneyFormatter, toFloat, toInt, toPercentage } from "./core/functions";
 import { Chart } from "./components/Chart";
 import { Slider } from "./components/Slider";
 import { HistoricTable } from "./components/HistoricTable";
 import { RevenueStore } from "./stores/RevenueStore";
+import { observer } from "mobx-react";
 
 const revenueStore = new RevenueStore();
 
+@observer
 class App extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      monthlyNew: 25,
-      growthFactor: 0.04,
-      monthlyChurn: 0.4,
-      reactivationRate: 0.2,
-      months: 36,
-      income: 19,
-      acqusitionCost: 50,
-      reactivationCost: 35
-    };
-    this.changeMonthlyNew = this.changeMonthlyNew.bind(this);
-    this.changeGrowthFactor = this.changeGrowthFactor.bind(this);
-    this.changeChurnFactor = this.changeChurnFactor.bind(this);
-    this.changeReactivationRate = this.changeReactivationRate.bind(this);
-    this.changeMonths = this.changeMonths.bind(this);
-    this.changeIncome = this.changeIncome.bind(this);
-    this.changeAcqusitionCost = this.changeAcqusitionCost.bind(this);
-    this.changeReactivationCost = this.changeReactivationCost.bind(this);
-  }
-
   render() {
-    let { monthlyNew, growthFactor, monthlyChurn, reactivationRate } = this.state;
-    let data = simulateEngagement(this.state.income, this.state.months, {
-      monthlyNew,
-      growthFactor,
-      monthlyChurn,
-      reactivationRate
-    });
-    let totalIncome = this.getTotalIncome(data);
-    let percentageFormatter = val => {
+    let percentageFormatter = (val) => {
       return toInt(val * 100) + "%";
     };
     return (
       <div className="App">
         <div className="row">
           <div className="col-lg-8">
-            <Chart data={data} />
+            <Chart data={revenueStore.data} />
             <HistoricTable
-              data={data}
+              data={revenueStore.data}
               money={{
-                reactivationCost: this.state.reactivationCost,
-                acqusitionCost: this.state.acqusitionCost,
-                monthlyRevenuePerUser: this.state.income
+                reactivationCost: revenueStore.reactivationCost,
+                acquisitionCost: revenueStore.acquisitionCost,
+                monthlyRevenuePerUser: revenueStore.income
               }}
             />
           </div>
           <div className="col-lg-4">
             <div className="card">
               <div className="card-body">
-                <h5 className="card-title">Total Income after {this.state.months} months</h5>
+                <h5 className="card-title">Total Income after {revenueStore.months} months</h5>
                 <p className="card-subtitle mb-2 text-muted">
                   <small>
-                    ${this.state.income}/user/month - MoM Acq Growth:{" "}
-                    {toPercentage(this.state.growthFactor)} - Churn-rate:{" "}
-                    {toPercentage(this.state.monthlyChurn)} - Reactivation:{" "}
-                    {toPercentage(this.state.reactivationRate)} - Acquisition Cost: $
-                    {this.state.acqusitionCost} - Reactivation Cost: ${this.state.reactivationCost}
+                    ${revenueStore.income}/user/month - MoM Acq Growth:{" "}
+                    {toPercentage(revenueStore.growthFactor)} - Churn-rate:{" "}
+                    {toPercentage(revenueStore.monthlyChurn)} - Reactivation:{" "}
+                    {toPercentage(revenueStore.reactivationRate)} - Acquisition Cost: $
+                    {revenueStore.acqusitionCost} - Reactivation Cost: $
+                    {revenueStore.reactivationCost}
                   </small>
                 </p>
-                <h1 className={"display-3"}>{this.showMoney(totalIncome)}</h1>
+                <h1 className={"display-3"}>{this.showMoney(revenueStore.totalIncome)}</h1>
                 <p>
                   <small className={"text-muted"}>
                     TODO: Show what one change in either prop would do to bottom line
@@ -80,8 +53,10 @@ class App extends Component {
             </div>
             <Slider
               label={"First Month New Customers"}
-              value={this.state.monthlyNew}
-              onChange={this.changeMonthlyNew}
+              value={revenueStore.monthlyNew}
+              onChange={(event) => {
+                revenueStore.setMonthlyNew(toInt(event.target.value));
+              }}
               refName={"monthlyNewRef"}
               step={5}
               min={0}
@@ -90,8 +65,10 @@ class App extends Component {
             />
             <Slider
               label={"Monthly Growth Factor"}
-              value={this.state.growthFactor}
-              onChange={this.changeGrowthFactor}
+              value={revenueStore.growthFactor}
+              onChange={(event) => {
+                revenueStore.setGrowthFactor(toFloat(event.target.value));
+              }}
               refName={"growthFactorRef"}
               step={0.01}
               min={-0.5}
@@ -101,8 +78,10 @@ class App extends Component {
             />
             <Slider
               label={"Monthly Churn Rate"}
-              value={this.state.monthlyChurn}
-              onChange={this.changeChurnFactor}
+              value={revenueStore.monthlyChurn}
+              onChange={(event) => {
+                revenueStore.setMonthlyChurn(toFloat(event.target.value));
+              }}
               refName={"churnFactorRef"}
               step={0.01}
               min={0}
@@ -113,8 +92,10 @@ class App extends Component {
 
             <Slider
               label={"Reactivation Rate"}
-              value={this.state.reactivationRate}
-              onChange={this.changeReactivationRate}
+              value={revenueStore.reactivationRate}
+              onChange={(event) => {
+                revenueStore.setReactivationRate(toFloat(event.target.value));
+              }}
               refName={"reactivationRateRef"}
               step={0.01}
               min={0}
@@ -125,8 +106,10 @@ class App extends Component {
 
             <Slider
               label={"Months"}
-              value={this.state.months}
-              onChange={this.changeMonths}
+              value={revenueStore.months}
+              onChange={(event) => {
+                revenueStore.setMonths(toInt(event.target.value));
+              }}
               refName={"changeMonthsRef"}
               step={12}
               min={0}
@@ -135,8 +118,10 @@ class App extends Component {
 
             <Slider
               label={"Monthly Income Per User"}
-              value={this.state.income}
-              onChange={this.changeIncome}
+              value={revenueStore.income}
+              onChange={(event) => {
+                revenueStore.setIncome(toInt(event.target.value));
+              }}
               refName={"changeIncomeRef"}
               step={1}
               min={1}
@@ -146,8 +131,10 @@ class App extends Component {
 
             <Slider
               label={"Acquisition Cost"}
-              value={this.state.acqusitionCost}
-              onChange={this.changeAcqusitionCost}
+              value={revenueStore.acquisitionCost}
+              onChange={(event) => {
+                revenueStore.setAcquisitionCost(toInt(event.target.value));
+              }}
               refName={"changeAcqusitionCostRef"}
               step={5}
               min={0}
@@ -157,8 +144,10 @@ class App extends Component {
 
             <Slider
               label={"Reactivation Cost"}
-              value={this.state.reactivationCost}
-              onChange={this.changeReactivationCost}
+              value={revenueStore.reactivationCost}
+              onChange={(event) => {
+                revenueStore.setReactivationCost(toInt(event.target.value));
+              }}
               refName={"changeReactivationCostRef"}
               step={5}
               min={0}
@@ -174,80 +163,8 @@ class App extends Component {
     );
   }
 
-  componentDidUpdate(prevProps, prevState, snapshot) {
-    console.log(prevState, this.state);
-  }
-
-  changeMonthlyNew(event) {
-    let val = event.target.value;
-    console.log(val);
-    this.setState({
-      monthlyNew: toInt(val)
-    });
-  }
-
-  changeGrowthFactor(event) {
-    let val = event.target.value;
-    this.setState({
-      growthFactor: toInt(val)
-    });
-  }
-
-  changeChurnFactor(event) {
-    let val = event.target.value;
-    this.setState({
-      monthlyChurn: toFloat(val)
-    });
-  }
-
-  changeReactivationRate(event) {
-    let val = event.target.value;
-    this.setState({
-      reactivationRate: toFloat(val)
-    });
-  }
-
-  changeMonths(event) {
-    let val = event.target.value;
-    this.setState({
-      months: toInt(val)
-    });
-  }
-
-  changeIncome(event) {
-    let val = event.target.value;
-    this.setState({
-      income: toInt(val)
-    });
-  }
-
-  changeAcqusitionCost(event) {
-    let val = event.target.value;
-    this.setState({
-      acqusitionCost: toInt(val)
-    });
-  }
-
-  changeReactivationCost(event) {
-    let val = event.target.value;
-    this.setState({
-      reactivationCost: toInt(val)
-    });
-  }
-
   showMoney(money) {
     return moneyFormatter(money);
-  }
-
-  getTotalIncome(data) {
-    let totalIncome = 0;
-    data.forEach(item => {
-      let acquisitionCost = item.monthlyNew * this.state.acqusitionCost;
-      let reactivationCost = item.reactivated * this.state.reactivationCost;
-      let userRevenue = this.state.income * item.totalUsers;
-      totalIncome += userRevenue - (acquisitionCost + reactivationCost);
-    });
-    return totalIncome;
   }
 }
 
