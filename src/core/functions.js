@@ -42,3 +42,6 @@ export const simulateEngagement = (monthlyIncomePerUser = 9, months = 36, userOp
 export const moneyFormatter = money => {
   return money.toFixed(2).replace(/\d(?=(\d{3})+\.)/g, "$&,");
 };
+
+export const toInt = number => (typeof number === "string" ? parseInt(number) : Math.round(number));
+export const toFloat = number => (typeof number === "string" ? parseFloat(number) : number);

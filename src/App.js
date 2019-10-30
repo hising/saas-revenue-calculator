@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import "./App.css";
-import { moneyFormatter, simulateEngagement, toPercentage } from "./core/functions";
+import { moneyFormatter, simulateEngagement, toFloat, toInt, toPercentage } from "./core/functions";
 import { Chart } from "./components/Chart";
 import { Slider } from "./components/Slider";
 import { HistoricTable } from "./components/HistoricTable";
@@ -38,7 +38,7 @@ class App extends Component {
     });
     let totalIncome = this.getTotalIncome(data);
     let percentageFormatter = val => {
-      return parseInt(val * 100) + "%";
+      return toInt(val * 100) + "%";
     };
     return (
       <div className="App">
@@ -179,56 +179,56 @@ class App extends Component {
     let val = event.target.value;
     console.log(val);
     this.setState({
-      monthlyNew: parseInt(val)
+      monthlyNew: toInt(val)
     });
   }
 
   changeGrowthFactor(event) {
     let val = event.target.value;
     this.setState({
-      growthFactor: parseFloat(val)
+      growthFactor: toInt(val)
     });
   }
 
   changeChurnFactor(event) {
     let val = event.target.value;
     this.setState({
-      monthlyChurn: parseFloat(val)
+      monthlyChurn: toFloat(val)
     });
   }
 
   changeReactivationRate(event) {
     let val = event.target.value;
     this.setState({
-      reactivationRate: parseFloat(val)
+      reactivationRate: toFloat(val)
     });
   }
 
   changeMonths(event) {
     let val = event.target.value;
     this.setState({
-      months: parseInt(val)
+      months: toInt(val)
     });
   }
 
   changeIncome(event) {
     let val = event.target.value;
     this.setState({
-      income: parseInt(val)
+      income: toInt(val)
     });
   }
 
   changeAcqusitionCost(event) {
     let val = event.target.value;
     this.setState({
-      acqusitionCost: parseInt(val)
+      acqusitionCost: toInt(val)
     });
   }
 
   changeReactivationCost(event) {
     let val = event.target.value;
     this.setState({
-      reactivationCost: parseInt(val)
+      reactivationCost: toInt(val)
     });
   }
 
