@@ -64,11 +64,71 @@ class App extends Component {
                   </small>
                 </p>
                 <p className={"total-income"}>{this.showMoney(revenueStore.totalIncome, 0)}</p>
-                <p>
-                  <small className={"text-muted"}>
-                    TODO: Show what one change in either prop would do to bottom line
-                  </small>
-                </p>
+                <h6>What would happen if we would...</h6>
+                <dl className={"total-insights"}>
+                  <dt>Increase nr of new users with 5%</dt>
+                  <dd>
+                    {
+                      revenueStore.simulateTotalIncome({
+                        monthlyNew: revenueStore.monthlyNew * 1.05
+                      }).diff
+                    }
+                  </dd>
+
+                  <dt>Increase growth factor with 1%</dt>
+                  <dd>
+                    {
+                      revenueStore.simulateTotalIncome({
+                        growthFactor: revenueStore.growthFactor * 1.01
+                      }).diff
+                    }
+                  </dd>
+
+                  <dt>Reduce churn rate with 1%</dt>
+                  <dd>
+                    {
+                      revenueStore.simulateTotalIncome({
+                        monthlyChurn: revenueStore.monthlyChurn * 0.99
+                      }).diff
+                    }
+                  </dd>
+
+                  <dt>Increase reactivation rate with 1%</dt>
+                  <dd>
+                    {
+                      revenueStore.simulateTotalIncome({
+                        reactivationRate: revenueStore.reactivationRate * 1.01
+                      }).diff
+                    }
+                  </dd>
+
+                  <dt>Increase income per user with 1%</dt>
+                  <dd>
+                    {
+                      revenueStore.simulateTotalIncome({
+                        income: revenueStore.income * 1.01
+                      }).diff
+                    }
+                  </dd>
+
+                  <dt>Reduce acquisition cost with 1%</dt>
+                  <dd>
+                    {
+                      revenueStore.simulateTotalIncome({
+                        acquisitionCost: revenueStore.acquisitionCost * 0.99
+                      }).diff
+                    }
+                  </dd>
+
+                  <dt>Reduce reactivation cost with 1%</dt>
+                  <dd>
+                    {
+                      revenueStore.simulateTotalIncome({
+                        reactivationCost: revenueStore.reactivationCost * 0.99
+                      }).diff
+                    }
+                  </dd>
+                </dl>
               </div>
             </div>
             <Slider

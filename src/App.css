@@ -3,7 +3,7 @@
 }
 
 .total-income {
-  padding: 40px 20px;
+  padding: 12px;
   text-align: center;
   font-size: 42px;
   color: #505050;
@@ -16,4 +16,16 @@
 
 .tab-hidden {
   display: none;
+}
+
+.total-insights dt,
+.total-insights dd {
+  font-size: 12px;
+}
+
+.total-insights dd {
+  padding-bottom: 3px;
+  margin-bottom: 4px;
+  border-bottom: 1px solid #e1e1e1;
+  color: #75747c;
 }

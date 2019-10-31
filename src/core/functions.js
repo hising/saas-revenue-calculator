@@ -2,6 +2,8 @@ export const toPercentage = (number) => {
   return `${number * 100}%`;
 };
 
+export const roundedPercentage = (num) => Math.round(num * 100) / 100;
+
 export const simulateEngagement = (monthlyIncomePerUser = 9, months = 36, userOptions = {}) => {
   const defaultOptions = {
     monthlyNew: 20,

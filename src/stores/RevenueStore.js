@@ -1,5 +1,5 @@
 import { action, computed, observable } from "mobx";
-import { simulateEngagement } from "../core/functions";
+import { roundedPercentage, simulateEngagement, toInt, toPercentage } from "../core/functions";
 
 export class RevenueStore {
   @observable monthly = [];
@@ -28,6 +28,22 @@ export class RevenueStore {
     return this.income * item.totalUsers;
   };
 
+  totalIncomeCalculator = (data, income = null, acquisitionCost = null, reactivationCost = null) => {
+    let totalIncome = 0;
+
+    let inc = income || this.income;
+    let acq = acquisitionCost || this.acquisitionCost;
+    let rec = reactivationCost || this.reactivationCost;
+
+    data.forEach((item) => {
+      let acquisitionCost = item.monthlyNew * acq;
+      let reactivationCost = item.reactivated * rec;
+      let userRevenue = inc * item.totalUsers;
+      totalIncome += userRevenue - (acquisitionCost + reactivationCost);
+    });
+    return totalIncome;
+  };
+
   @computed get reactivationMonthly() {}
   @computed get activationCostMonthly() {}
   @computed get userRevenueMonthly() {
@@ -49,14 +65,7 @@ export class RevenueStore {
     return this.simulateEngagement();
   }
   @computed get totalIncome() {
-    let totalIncome = 0;
-    this.data.forEach((item) => {
-      let acquisitionCost = item.monthlyNew * this.acquisitionCost;
-      let reactivationCost = item.reactivated * this.reactivationCost;
-      let userRevenue = this.income * item.totalUsers;
-      totalIncome += userRevenue - (acquisitionCost + reactivationCost);
-    });
-    return totalIncome;
+    return this.totalIncomeCalculator(this.data);
   }
 
   @action setMonthlyNew(monthlyNew) {
@@ -98,5 +107,38 @@ export class RevenueStore {
       monthlyChurn: this.monthlyChurn,
       reactivationRate: this.reactivationRate
     });
+  }
+
+  simulateTotalIncome({
+    monthlyNew,
+    acquisitionCost,
+    reactivationCost,
+    income,
+    growthFactor,
+    monthlyChurn,
+    reactivationRate
+  }) {
+    let simulatedData = simulateEngagement(income || this.income, this.months, {
+      monthlyNew: monthlyNew || this.monthlyNew,
+      growthFactor: growthFactor || this.growthFactor,
+      monthlyChurn: monthlyChurn || this.monthlyChurn,
+      reactivationRate: reactivationRate || this.reactivationRate
+    });
+    let total = toInt(
+      this.totalIncomeCalculator(
+        simulatedData,
+        income || this.income,
+        acquisitionCost || this.acquisitionCost,
+        reactivationCost || this.reactivationCost
+      )
+    );
+    let diff = total - this.totalIncome;
+    let percentage = roundedPercentage(diff / this.totalIncome);
+    return {
+      total,
+      diff,
+      percentage,
+      percentageStr: toPercentage(percentage)
+    };
   }
 }
