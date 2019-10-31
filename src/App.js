@@ -7,6 +7,7 @@ import { HistoricTable } from "./components/HistoricTable";
 import { RevenueStore } from "./stores/RevenueStore";
 import { observer } from "mobx-react";
 import { Tabs } from "./components/Tabs";
+import { Changes } from "./components/Changes";
 
 const revenueStore = new RevenueStore();
 
@@ -23,6 +24,26 @@ class App extends Component {
     let percentageFormatter = (val) => {
       return toInt(val * 100) + "%";
     };
+
+    let monthlies = revenueStore.simulateTotalIncome({ monthlyNew: revenueStore.monthlyNew * 1.05 });
+    let growhties = revenueStore.simulateTotalIncome({
+      growthFactor: revenueStore.growthFactor * 1.01
+    });
+    let churnies = revenueStore.simulateTotalIncome({
+      monthlyChurn: revenueStore.monthlyChurn * 0.99
+    });
+    let recRaties = revenueStore.simulateTotalIncome({
+      reactivationRate: revenueStore.reactivationRate * 1.01
+    });
+    let incomies = revenueStore.simulateTotalIncome({
+      income: revenueStore.income * 1.01
+    });
+    let acquies = revenueStore.simulateTotalIncome({
+      acquisitionCost: revenueStore.acquisitionCost * 0.99
+    });
+    let reccies = revenueStore.simulateTotalIncome({
+      reactivationCost: revenueStore.reactivationCost * 0.99
+    });
     return (
       <div className="App">
         <div className="row">
@@ -68,65 +89,37 @@ class App extends Component {
                 <dl className={"total-insights"}>
                   <dt>Increase nr of new users with 5%</dt>
                   <dd>
-                    {
-                      revenueStore.simulateTotalIncome({
-                        monthlyNew: revenueStore.monthlyNew * 1.05
-                      }).diff
-                    }
+                    <Changes data={monthlies} />
                   </dd>
 
                   <dt>Increase growth factor with 1%</dt>
                   <dd>
-                    {
-                      revenueStore.simulateTotalIncome({
-                        growthFactor: revenueStore.growthFactor * 1.01
-                      }).diff
-                    }
+                    <Changes data={growhties} />
                   </dd>
 
                   <dt>Reduce churn rate with 1%</dt>
                   <dd>
-                    {
-                      revenueStore.simulateTotalIncome({
-                        monthlyChurn: revenueStore.monthlyChurn * 0.99
-                      }).diff
-                    }
+                    <Changes data={churnies} />
                   </dd>
 
                   <dt>Increase reactivation rate with 1%</dt>
                   <dd>
-                    {
-                      revenueStore.simulateTotalIncome({
-                        reactivationRate: revenueStore.reactivationRate * 1.01
-                      }).diff
-                    }
+                    <Changes data={recRaties} />
                   </dd>
 
                   <dt>Increase income per user with 1%</dt>
                   <dd>
-                    {
-                      revenueStore.simulateTotalIncome({
-                        income: revenueStore.income * 1.01
-                      }).diff
-                    }
+                    <Changes data={incomies} />
                   </dd>
 
                   <dt>Reduce acquisition cost with 1%</dt>
                   <dd>
-                    {
-                      revenueStore.simulateTotalIncome({
-                        acquisitionCost: revenueStore.acquisitionCost * 0.99
-                      }).diff
-                    }
+                    <Changes data={acquies} />
                   </dd>
 
                   <dt>Reduce reactivation cost with 1%</dt>
                   <dd>
-                    {
-                      revenueStore.simulateTotalIncome({
-                        reactivationCost: revenueStore.reactivationCost * 0.99
-                      }).diff
-                    }
+                    <Changes data={reccies} />
                   </dd>
                 </dl>
               </div>

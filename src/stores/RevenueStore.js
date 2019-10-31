@@ -138,7 +138,7 @@ export class RevenueStore {
       total,
       diff,
       percentage,
-      percentageStr: toPercentage(percentage)
+      percentageStr: `${(percentage * 100).toFixed(1)}%`
     };
   }
 }
