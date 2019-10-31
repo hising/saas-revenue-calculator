@@ -8,6 +8,7 @@ import { RevenueStore } from "./stores/RevenueStore";
 import { observer } from "mobx-react";
 import { Tabs } from "./components/Tabs";
 import { Changes } from "./components/Changes";
+import ReactGA from "react-ga";
 
 const revenueStore = new RevenueStore();
 
@@ -18,6 +19,10 @@ class App extends Component {
     this.state = {
       active: "users"
     };
+  }
+
+  componentDidMount() {
+    ReactGA.pageview(window.location.pathname);
   }
 
   render() {

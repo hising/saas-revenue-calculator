@@ -10,11 +10,11 @@ export class HistoricTable extends React.Component {
                     <tr>
                         <th>Month</th>
                         <th>New Users</th>
-                        <th>Churned</th>
-                        <th>Reactivated</th>
-                        <th>Active Users</th>
-                        <th>Inactive Users</th>
-                        <th>Income</th>
+                        <th className={"text-right"}>Churned</th>
+                        <th className={"text-right"}>Reactivated</th>
+                        <th className={"text-right"}>Active Users</th>
+                        <th className={"text-right"}>Inactive Users</th>
+                        <th className={"text-right"}>Profit</th>
                     </tr>
                     </thead>
                     <tbody>{this.getRows()}</tbody>
@@ -33,13 +33,13 @@ export class HistoricTable extends React.Component {
             totalRevenue += monthlyRevenue;
 
             let reactivationInfo =
-                item.reactivated > 0 ? <small>-${moneyFormatter(reactivationCost)}</small> : null;
+              item.reactivated > 0 ? <small><span className={"text-muted"}>Cost:</span> -{moneyFormatter(reactivationCost)}</small> : null;
             return (
                 <tr key={index}>
                     <td>{index + 1}</td>
                     <td>
                         {item.monthlyNew}
-                        <small>-${moneyFormatter(acquisitionCost)} / month</small>
+                      <small><span className={"text-muted"}>Cost:</span> -{moneyFormatter(acquisitionCost)}</small>
                     </td>
                     <td>{item.churnedUsers * -1}</td>
                     <td>
@@ -48,13 +48,12 @@ export class HistoricTable extends React.Component {
                     </td>
                     <td>
                         {item.totalUsers}
-                        <small>${moneyFormatter(userRevenue)}</small>
+                        <small>{moneyFormatter(userRevenue)}</small>
                     </td>
                     <td>{item.totalInactive}</td>
                     <td>
-                        <span className={"text-muted"}>&Sigma;</span>
-                        {moneyFormatter(totalRevenue)}
-                        <small>${moneyFormatter(monthlyRevenue)}</small>
+                      <span className={"text-muted"}>Acc:</span> {moneyFormatter(totalRevenue)}
+                      <small><span className={"text-muted"}>Monthly:</span> {moneyFormatter(monthlyRevenue)}</small>
                     </td>
                 </tr>
             );

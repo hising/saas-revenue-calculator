@@ -42,7 +42,7 @@ export const simulateEngagement = (monthlyIncomePerUser = 9, months = 36, userOp
 };
 
 export const moneyFormatter = (money, digits = 2) => {
-  return money.toLocaleString("en-US");
+  return (money < 0 ? "-" : "") + "$" + Math.abs(money).toLocaleString("en-US");
 };
 
 export const toInt = (number) => (typeof number === "string" ? parseInt(number) : Math.round(number));
