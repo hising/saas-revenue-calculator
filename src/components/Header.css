@@ -1,0 +1,11 @@
+.main-nav-header {
+  background-color: #4d8ea3;
+  color: #dddddd;
+  font-size: 14px;
+  padding: 12px;
+}
+
+.main-nav-header a.action {
+  float: right;
+  color: #e3fffc;
+}
