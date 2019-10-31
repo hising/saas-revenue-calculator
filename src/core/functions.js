@@ -1,4 +1,4 @@
-export const toPercentage = number => {
+export const toPercentage = (number) => {
   return `${number * 100}%`;
 };
 
@@ -39,9 +39,9 @@ export const simulateEngagement = (monthlyIncomePerUser = 9, months = 36, userOp
   return result;
 };
 
-export const moneyFormatter = money => {
-  return money.toFixed(2).replace(/\d(?=(\d{3})+\.)/g, "$&,");
+export const moneyFormatter = (money, digits = 2) => {
+  return money.toLocaleString("en-US");
 };
 
-export const toInt = number => (typeof number === "string" ? parseInt(number) : Math.round(number));
-export const toFloat = number => (typeof number === "string" ? parseFloat(number) : number);
+export const toInt = (number) => (typeof number === "string" ? parseInt(number) : Math.round(number));
+export const toFloat = (number) => (typeof number === "string" ? parseFloat(number) : number);

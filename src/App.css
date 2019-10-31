@@ -1,3 +1,19 @@
 .App {
   padding: 20px;
 }
+
+.total-income {
+  padding: 40px 20px;
+  text-align: center;
+  font-size: 42px;
+  color: #505050;
+}
+
+.tab-show {
+  display: block;
+  margin: 20px 0;
+}
+
+.tab-hidden {
+  display: none;
+}

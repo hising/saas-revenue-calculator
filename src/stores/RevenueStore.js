@@ -12,11 +12,39 @@ export class RevenueStore {
   @observable acquisitionCost = 50;
   @observable reactivationCost = 35;
 
+  monthlyIncomeByItem = (item) => {
+    return this.userRevenueByItem(item) - (this.acquisitionCostByItem(item) + this.reactivationCostByItem(item));
+  };
+
+  reactivationCostByItem = (item) => {
+    return item.reactivated * this.reactivationCost;
+  };
+
+  acquisitionCostByItem = (item) => {
+    return item.monthlyNew * this.acquisitionCost;
+  };
+
+  userRevenueByItem = (item) => {
+    return this.income * item.totalUsers;
+  };
+
   @computed get reactivationMonthly() {}
   @computed get activationCostMonthly() {}
-  @computed get userRevenueMonthly() {}
+  @computed get userRevenueMonthly() {
+    return this.data.map(this.monthlyIncomeByItem);
+  }
   @computed get revenueMonthly() {}
   @computed get totalRevenue() {}
+  @computed get getIncomeData() {
+    return this.data.map((item) => {
+      return {
+        monthlyRevenue: this.monthlyIncomeByItem(item),
+        acquisitionCost: this.acquisitionCostByItem(item),
+        reactivationCost: this.reactivationCostByItem(item),
+        totalRevenue: this.userRevenueByItem(item)
+      };
+    });
+  }
   @computed get data() {
     return this.simulateEngagement();
   }

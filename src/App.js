@@ -6,11 +6,19 @@ import { Slider } from "./components/Slider";
 import { HistoricTable } from "./components/HistoricTable";
 import { RevenueStore } from "./stores/RevenueStore";
 import { observer } from "mobx-react";
+import { Tabs } from "./components/Tabs";
 
 const revenueStore = new RevenueStore();
 
 @observer
 class App extends Component {
+  constructor(props, context) {
+    super(props, context);
+    this.state = {
+      active: "users"
+    };
+  }
+
   render() {
     let percentageFormatter = (val) => {
       return toInt(val * 100) + "%";
@@ -19,7 +27,21 @@ class App extends Component {
       <div className="App">
         <div className="row">
           <div className="col-lg-8">
-            <Chart data={revenueStore.data} />
+            <Tabs
+              items={[{ key: "users", label: "Users" }, { key: "income", label: "Income" }]}
+              onChange={(key) => {
+                this.setState({
+                  active: key
+                });
+              }}
+              active={this.state.active}
+            />
+            <div className={this.state.active === "users" ? "tab-show" : "tab-hidden"}>
+              <Chart data={revenueStore.data} />
+            </div>
+            <div className={this.state.active === "income" ? "tab-show" : "tab-hidden"}>
+              <Chart data={revenueStore.getIncomeData} />
+            </div>
             <HistoricTable
               data={revenueStore.data}
               money={{
@@ -35,15 +57,13 @@ class App extends Component {
                 <h5 className="card-title">Total Income after {revenueStore.months} months</h5>
                 <p className="card-subtitle mb-2 text-muted">
                   <small>
-                    ${revenueStore.income}/user/month - MoM Acq Growth:{" "}
-                    {toPercentage(revenueStore.growthFactor)} - Churn-rate:{" "}
-                    {toPercentage(revenueStore.monthlyChurn)} - Reactivation:{" "}
-                    {toPercentage(revenueStore.reactivationRate)} - Acquisition Cost: $
-                    {revenueStore.acqusitionCost} - Reactivation Cost: $
-                    {revenueStore.reactivationCost}
+                    ${revenueStore.income}/user/month - MoM Acq Growth: {toPercentage(revenueStore.growthFactor)} -
+                    Churn-rate: {toPercentage(revenueStore.monthlyChurn)} - Reactivation:{" "}
+                    {toPercentage(revenueStore.reactivationRate)} - Acquisition Cost: ${revenueStore.acqusitionCost} -
+                    Reactivation Cost: ${revenueStore.reactivationCost}
                   </small>
                 </p>
-                <h1 className={"display-3"}>{this.showMoney(revenueStore.totalIncome)}</h1>
+                <p className={"total-income"}>{this.showMoney(revenueStore.totalIncome, 0)}</p>
                 <p>
                   <small className={"text-muted"}>
                     TODO: Show what one change in either prop would do to bottom line
@@ -163,8 +183,8 @@ class App extends Component {
     );
   }
 
-  showMoney(money) {
-    return moneyFormatter(money);
+  showMoney(money, digits = 2) {
+    return moneyFormatter(money, digits);
   }
 }
 
