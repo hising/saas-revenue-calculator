@@ -54,7 +54,7 @@ export class RevenueStore {
   @computed get getIncomeData() {
     return this.data.map((item) => {
       return {
-        monthlyRevenue: this.monthlyIncomeByItem(item),
+        monthlyProfit: this.monthlyIncomeByItem(item),
         acquisitionCost: this.acquisitionCostByItem(item),
         reactivationCost: this.reactivationCostByItem(item),
         totalRevenue: this.userRevenueByItem(item)
