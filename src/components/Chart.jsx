@@ -32,7 +32,7 @@ export class Chart extends React.Component {
         borderDashOffset: 0.0,
         borderJoinStyle: "miter",
         pointBackgroundColor: "#fff",
-        pointBorderWidth: 3,
+        pointBorderWidth: 1,
         pointHoverRadius: 5,
         pointHoverBorderWidth: 1,
         pointRadius: 1,

@@ -146,7 +146,8 @@ export class RevenueStore {
       monthlyNew: monthlyNew || this.monthlyNew,
       growthFactor: growthFactor || this.growthFactor,
       monthlyChurn: monthlyChurn || this.monthlyChurn,
-      reactivationRate: reactivationRate || this.reactivationRate
+      reactivationRate: reactivationRate || this.reactivationRate,
+      usersToStartWith: this.startWithCustomers
     });
     let total = toInt(
       this.totalIncomeCalculator(
