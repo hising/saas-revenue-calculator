@@ -110,6 +110,8 @@ class App extends Component {
                     </small>
                   </p>
                   <p className={"total-income"}>{this.showMoney(revenueStore.totalIncome, 0)}</p>
+
+                  <p>Months to break even: {revenueStore.getBreakEvenInMonth}</p>
                   <h6>What would happen if we would...</h6>
                   <dl className={"total-insights"}>
                     <dt>Increase nr of new users with 5%</dt>

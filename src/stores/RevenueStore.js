@@ -3,6 +3,7 @@ import { roundedPercentage, simulateEngagement, toInt, toPercentage } from "../c
 
 export class RevenueStore {
   @observable monthly = [];
+  @observable startWithCustomers = 0;
   @observable monthlyNew = 25;
   @observable growthFactor = 0.04;
   @observable monthlyChurn = 0.4;
@@ -26,6 +27,23 @@ export class RevenueStore {
 
   userRevenueByItem = (item) => {
     return this.income * item.totalUsers;
+  };
+
+  getBreakEvenIndex = () => {
+    let totalIncome = 0;
+    let breakOutMonth = 0;
+    for (let i = 0; i < this.data.length; i++) {
+      let item = this.data[i];
+      let acquisitionCost = item.monthlyNew * this.acquisitionCost;
+      let reactivationCost = item.reactivated * this.reactivationCost;
+      let userRevenue = this.income * item.totalUsers;
+      totalIncome += userRevenue - (acquisitionCost + reactivationCost);
+      breakOutMonth++;
+      if (totalIncome > 0) {
+        break;
+      }
+    }
+    return breakOutMonth < this.data.length ? breakOutMonth : -1;
   };
 
   totalIncomeCalculator = (data, income = null, acquisitionCost = null, reactivationCost = null) => {
@@ -61,6 +79,11 @@ export class RevenueStore {
       };
     });
   }
+
+  @computed get getBreakEvenInMonth() {
+    return this.getBreakEvenIndex();
+  }
+
   @computed get data() {
     return this.simulateEngagement();
   }
