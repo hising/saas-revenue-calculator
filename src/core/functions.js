@@ -9,12 +9,13 @@ export const simulateEngagement = (monthlyIncomePerUser = 9, months = 36, userOp
     monthlyNew: 20,
     growthFactor: 0.03,
     monthlyChurn: 0.04,
-    reactivationRate: 0.08
+    reactivationRate: 0.08,
+    usersToStartWith: 0
   };
 
   const options = { ...defaultOptions, ...userOptions };
 
-  let totalUsers = 0;
+  let totalUsers = options.usersToStartWith;
   let totalInactive = 0;
   let currentMonthly = options.monthlyNew;
   let lastMonth = 0;

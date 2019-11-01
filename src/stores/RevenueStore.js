@@ -128,7 +128,8 @@ export class RevenueStore {
       monthlyNew: this.monthlyNew,
       growthFactor: this.growthFactor,
       monthlyChurn: this.monthlyChurn,
-      reactivationRate: this.reactivationRate
+      reactivationRate: this.reactivationRate,
+      usersToStartWith: this.startWithCustomers
     });
   }
 
@@ -163,5 +164,9 @@ export class RevenueStore {
       percentage,
       percentageStr: `${(percentage * 100).toFixed(1)}%`
     };
+  }
+
+  @action setStartWithCustomers(number) {
+    this.startWithCustomers = number;
   }
 }

@@ -152,7 +152,18 @@ class App extends Component {
                 </div>
               </div>
               <Slider
-                label={"First Month New Customers"}
+                label={"How many customers do you have?"}
+                value={revenueStore.startWithCustomers}
+                onChange={(event) => {
+                  revenueStore.setStartWithCustomers(toInt(event.target.value));
+                }}
+                refName={"monthlyNewRef"}
+                step={1}
+                min={0}
+                max={1000}
+              />
+              <Slider
+                label={"New customers per month"}
                 value={revenueStore.monthlyNew}
                 onChange={(event) => {
                   revenueStore.setMonthlyNew(toInt(event.target.value));
