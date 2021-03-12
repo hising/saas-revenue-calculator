@@ -48,7 +48,7 @@
     "react": "^16.11.0",
     "react-app-polyfill": "^1.0.4",
     "react-chartjs-2": "^2.8.0",
-    "react-dev-utils": "^9.1.0",
+    "react-dev-utils": "^11.0.4",
     "react-dom": "^16.11.0",
     "react-ga": "^2.7.0",
     "resolve": "1.12.0",
